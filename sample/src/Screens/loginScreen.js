@@ -1,11 +1,49 @@
 import React,{Component} from 'react';
-import { StyleSheet,View,TextInput,Image,Text,Button,TouchableOpacity} from 'react-native';
+import { StyleSheet,View,TextInput,Image,Text,Button,TouchableOpacity,Alert} from 'react-native';
 export default class loginScreen extends Component{
     
   static navigationOptions = {
     header:false
 
   }
+  constructor(props){
+    super(props);
+    this.state = {
+     email: '',
+     password: '',
+     
+    };
+ }
+ loginAction = () => {
+        let parameter = {
+            code:"0",
+            userId:this.state.email,
+            newPassword:this.state.password
+
+            }
+        //    // {
+        //       //  "code": "string",
+        //         "newPassword": "string",
+        //         "userId": "string"
+        //     //  }
+            
+            fetch('103.79.223.60:8080/lockbox/core/v1/employee/forgot/reset', {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(parameter)
+            })
+            .then((response) => response.json())
+            .then((responseData) => {
+            console.log(responseData,'login success')
+            
+            })
+            .catch((error) => {
+            console.log(error,'login error')
+            });
+        }       
     render(){
     return( 
         <View style={styles.wrapper}>
@@ -16,20 +54,27 @@ export default class loginScreen extends Component{
             <View style={styles.wrapp1}>
               <TextInput
                 style={styles.textInputStyle}
-                placeholder='Email'
-              />
+                placeholder='Email' 
+                value={this.state.email}
+                onChangeText={(email) => this.setState({ email })}/>
+
+              
             </View>
             <View style={styles.wrapp1}>
                 <TextInput
                 style={styles.textInputStyle}
                 placeholder='Password'
-                />
+                secureTextEntry={true}
+                value={this.state.password}
+                onChangeText={(password) => this.setState({ password })}/>
+
+                
             </View>
             <View style={styles.wrapp2}>
                 <TouchableOpacity
-                    style={styles.touchableopacityStyle}> 
-                    <Text style={styles.textStyle}
-                    onPress={() => this.props.navigation.navigate('Home')}>Sign in</Text>
+                    style={styles.touchableopacityStyle}
+                    onPress={()=>this.props.navigation.navigate('Home')}> 
+                    <Text style={styles.textStyle}>Sign in</Text>
                 </TouchableOpacity>
             </View>
 
@@ -90,5 +135,4 @@ const styles=StyleSheet.create({
 }
     );
     
-
 
