@@ -1,7 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, AsyncStorage, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, AsyncStorage, ScrollView,SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { Button, Text, Container, Header, Left, Body, Right, Icon, Title, Item } from 'native-base';
-import CustomHeader from '../CustomHeader'
+import CustomHeader from '../CustomHeader';
+const { width } = Dimensions.get('window');
+const contentPerPage = 5;
+
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -10,9 +13,11 @@ export default class HomeScreen extends React.Component {
       password: '',
       employeeId: '',
       data: [],
-      userRole: ''
+      userRole: '',
+      pagination: [],
+      selected: 0
     };
-  }
+}
 
   //To display UserDetails:
   async componentDidMount() {
@@ -64,7 +69,15 @@ export default class HomeScreen extends React.Component {
       .then((responseHome) => {
         this.setState({ data: responseHome.data.response })
         // console.log(responseHome.data, 'response')
-
+        let count =
+          parseInt(responseHome.data.response.length / contentPerPage) +
+          (responseHome.data.response.length % contentPerPage > 0);
+        let pagination = [];
+          //console.log(responseHome.data.response,"dat----->")
+        for (let i = 0; i < count; i++) {
+          pagination.push(i);
+        }
+          this.setState({ pagination });
       })
     // const params= new URLSearchParams({
 
@@ -85,27 +98,52 @@ export default class HomeScreen extends React.Component {
     //         })
 
   }
+  
   render() {
+    const { pagination, selected } = this.state;
+    //console.log(this.state.data.,"-----> length console");
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }} >
-        <CustomHeader title="Locations" isHome={true} navigation={this.props.navigation} />
-        <ScrollView >
-          <View style={styles.wrapper}>
-            {this.state.data.map((item) => (
-              <View style={styles.wrapp1}>
-                <Text style={styles.textStyle}>{item.deviceCode}</Text>
-                <Text style={styles.textStyle2}>{item.locationDetail}, {item.employeeFullName}</Text>
-                <View style={{ paddingTop: 5 }}>
-                  <TouchableOpacity
+        <CustomHeader title="Locations" isHome={true} navigation={this.props.navigation} 
+        dataCount={this.state.data.length} />
+        <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1, }}>
+          <ScrollView horizontal
+            showsHorizontalScrollIndicator={false}
+            decelerationRate={0}
+            snapToInterval={width}
+            snapToAlignment={"center"}
+            onMomentumScrollEnd={(event) => this.setState({ selected: Math.round(event.nativeEvent.contentOffset.x / width) })}
+          >
+            {pagination.map(item => (<FlatList
+              style={{ paddingTop: 10, width: width }}
+              keyExtractor={(item, index) => item + index}
+              data={this.state.data.slice(item * contentPerPage,
+                this.state.data.length > item * contentPerPage
+                  ? item * contentPerPage + contentPerPage
+                  : item * contentPerPage + (this.state.data.length % contentPerPage))}
+                renderItem={({ item }) => (
+                <View style={styles.wrapp1}>
+                  <Text style={styles.textStyle}>{item.deviceCode}</Text>
+                  <Text style={styles.textStyle2}>{item.locationDetail}, {item.employeeFullName}</Text>
+                  <View style={{ paddingTop: 5 }}>
+                    <TouchableOpacity
                     style={styles.touchableopacityStyle}
                     onPress={() => this.props.navigation.navigate('GenerateKey', { location: item, user: this.state.userRole })}>
                     <Text style={styles.textStyle1}>Generate Key</Text>
-                  </TouchableOpacity>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-            ))}
-          </View>
-        </ScrollView>
+              )}
+            />))}
+          </ScrollView>
+        </View>
+        <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 35 }}>
+          {pagination.map(item => (<View
+            style={{ width: 8, height: 8, margin: 5, borderRadius: 10, backgroundColor: selected == item ? "#066DB3" : "gray" }}>
+          </View>))}
+        </View>
+      </SafeAreaView>
       </View >
 
     );

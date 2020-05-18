@@ -78,7 +78,7 @@ export default class loginScreen extends Component {
                         style={styles.touchableopacityStyle}
                         onPress={() => this.loginAction()}>
                         {/* //   onPress={()=>this.props.navigation.navigate('Home')} > */}
-                        <Text style={styles.textStyle}>Sign in</Text>
+                        <Text style={styles.textStyle}>Sign In</Text>
                     </TouchableOpacity>
                 </View>
             </View>
