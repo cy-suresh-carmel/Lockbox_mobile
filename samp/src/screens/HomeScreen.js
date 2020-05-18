@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, AsyncStorage, ScrollView,SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { Button, Text, Container, Header, Left, Body, Right, Icon, Title, Item } from 'native-base';
+import {USER_DETAILS,FILTER_DEVICE} from '../constants/ApiUrl';
 import CustomHeader from '../CustomHeader';
 const { width } = Dimensions.get('window');
 const contentPerPage = 5;
@@ -23,13 +24,14 @@ export default class HomeScreen extends React.Component {
   async componentDidMount() {
     let user = await AsyncStorage.getItem('email');
     this.setState({ email: user })
-    const params = new URLSearchParams({
+    // const params = new URLSearchParams({
 
-      userId: this.state.email
+    //   userId: this.state.email
 
-    })
+    // })
 
-    fetch(`http://103.79.223.60:8080/lockbox/core/v1/employee/detail?${params.toString()}`, {
+    let url=USER_DETAILS+this.state.email
+    fetch(url, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -57,7 +59,7 @@ export default class HomeScreen extends React.Component {
         "sortOrder": "asc"
       }
     }
-    fetch('http://103.79.223.60:8080/lockbox/core/v1/device/filter', {
+    fetch(FILTER_DEVICE, {
       method: 'POST',
       headers: {
         "content-type": 'application/json',

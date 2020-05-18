@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { SafeAreaView, ScrollView, View, Image, StyleSheet, AsyncStorage } from 'react-native';
+import {USER_DETAILS} from './constants/ApiUrl';
 import { Text, List, ListItem } from 'native-base';
 export default class HeaderIcon extends Component {
   constructor(props) {
@@ -15,12 +16,13 @@ export default class HeaderIcon extends Component {
   async componentDidMount() {
     let user = await AsyncStorage.getItem('email');
     this.setState({ email: user })
-    const params = new URLSearchParams({
+    // const params = new URLSearchParams({
 
-      userId: this.state.email
+    //   userId: this.state.email
 
-    })
-    fetch(`http://103.79.223.60:8080/lockbox/core/v1/employee/detail?${params.toString()}`, {
+    // })
+    let url=USER_DETAILS+this.state.email
+    fetch(url, {
       method: 'GET',
 
     })

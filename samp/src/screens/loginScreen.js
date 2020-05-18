@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput, Image, Text, Button, TouchableOpacity, Alert, AsyncStorage } from 'react-native';
-import LOGIN_TOKEN from '../constants/ApiUrl';
+import {LOGIN_TOKEN} from '../constants/ApiUrl';
 export default class loginScreen extends Component {
     constructor(props) {
         super(props);
@@ -17,7 +17,7 @@ export default class loginScreen extends Component {
         formData.append('password', this.state.password);
         formData.append('grant_type', 'password')
 
-        fetch('http://103.79.223.60:8080/lockbox/oauth/token', {
+        fetch(LOGIN_TOKEN, {
             method: 'POST',
             headers: new Headers({
                 // "Accept": "application/json",

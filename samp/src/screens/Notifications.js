@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { Button, Text, Container, Header, Left, Body, Right, Icon, Title } from 'native-base';
+import {IMAGE} from '../Image';
 import CustomHeader from '../CustomHeader.js';
 export default class Notifications extends React.Component {
   render() {
@@ -10,16 +11,16 @@ export default class Notifications extends React.Component {
         <View style={styles.container}>
           <Text style={styles.textStyle}>Support staff Brain K did not put the access card back to the device</Text>
           <View style={styles.viewstyle}>
-            <Image style={{ height: 20, width: 18 }}
-              source={{ uri: 'https://www.pngitem.com/pimgs/m/94-941550_location-icon-png-grey-transparent-png-location-icon.png' }} />
+            <Image style={styles.ImageStyle}
+              source={IMAGE.LOCATION_ICON} />
             <Text style={styles.dateTime}>6375 Dixie Rd,Missisauga</Text>
           </View>
           <View style={styles.viewstyle1}>
-            <Image style={{ height: 20, width: 18 }}
-              source={require('../Images/cal.png')} />
+            <Image style={styles.ImageStyle}
+              source={IMAGE.CALENDER_ICON} />
             <Text style={styles.dateTime}>12/03/2020</Text>
-            <Image style={{ height: 20, width: 18 }}
-              source={require('../Images/clock1.png')} />
+            <Image style={styles.ImageStyle}
+              source={IMAGE.CLOCK_ICON} />
             <Text style={styles.dateTime}>10:10am EST</Text>
           </View>
         </View>
@@ -57,6 +58,10 @@ const styles = StyleSheet.create({
     color: '#707070',
     paddingTop: 2,
     paddingRight: 5
+  },
+  ImageStyle:{
+    height: 20,
+     width: 18 
   }
 
 });

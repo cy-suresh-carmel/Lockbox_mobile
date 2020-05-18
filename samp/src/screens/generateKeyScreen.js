@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TextInput, Picker, TouchableOpacity, AsyncStorage } from 'react-native';
 import { Button, Text, Container, Header, Left, Body, Right, Title } from 'native-base';
+import { GENERATE_KEY, EMPLOYEE_ALL } from '../constants/ApiUrl';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DatePicker from 'react-native-datepicker';
 import CustomHeader from '../CustomHeader';
@@ -11,7 +12,7 @@ export default class generateKeyScreen extends React.Component {
         //set value in state for initial date
         this.state = {
             date: "",
-            time: "",
+            // time: "",
             startTime: "",
             endTime: "",
             id: '',
@@ -31,10 +32,15 @@ export default class generateKeyScreen extends React.Component {
             isLoading: true,
             PickerValueHolder: '',
             pickerName: [],
-            supportStaff:[]
+            supportStaff: [],
+            pageSize:14,
+            pageNumber: 0,
+            sortOrder: 'asc',
+            role: 'USER_ROLE_SUPPORT_USER'
         }
     }
     showStartDatePicker = () => {
+
         console.log("start date picker selected")
         console.log(this.state.flag, "show start date picker flag")
         this.setState({ isDatePickerVisible: true, flag: false });
@@ -62,14 +68,18 @@ export default class generateKeyScreen extends React.Component {
         //    console.log("inside handle confirm")
         // let Hours = (new Date(date)).getHours();
         const date1 = new Date(date);
+        // console.log(date1, "date1")
+        var time = date1.toTimeString();
+        var timeSelected = time.slice(0, 8)
+        console.log(timeSelected)
         // var sTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        const sTime = date1.toTimeString().split(' ')[0].split(':');
+        // const sTime = date1.toTimeString().split(' ')[0].split(':');
         if (this.state.flag) {
-            this.setState({ endTime: sTime[0] + ':' + sTime[1], isDatePickerVisible: false, flag: false })
+            this.setState({ endTime: timeSelected, isDatePickerVisible: false, flag: false })
             // console.log(this.state.flag,"flag inside end time")
         }
         else {
-            this.setState({ startTime: sTime[0] + ':' + sTime[1], isDatePickerVisible: false, flag: true })
+            this.setState({ startTime: timeSelected, isDatePickerVisible: false, flag: true })
             // this.hideStartDatePicker();
             // console.log(this.state.startTime,"startTime")
         }
@@ -87,22 +97,23 @@ export default class generateKeyScreen extends React.Component {
 
     componentDidMount = () => {
         // console.log(this.props.navigation.state.params.user,"user inside generate")
-        const params = new URLSearchParams({
+        // const params = new URLSearchParams({
 
-            pageSize: 14,
-            pageNumber: 0,
-            sortOrder: 'asc',
-            role:'USER_ROLE_SUPPORT_USER'
-            // role: this.state.userRole
+        //     pageSize: 14,
+        //     pageNumber: 0,
+        //     sortOrder: 'asc',
+        //     role: 'USER_ROLE_SUPPORT_USER'
+        //     // role: this.state.userRole
 
-        })
-        fetch(`http://103.79.223.60:8080/lockbox/core/v1/employee/all?${params.toString()}`, {
+        // })
+        let url=EMPLOYEE_ALL+"pageSize="+this.state.pageSize+"&pageNumber="+this.state.pageNumber+"&sortOrder="+this.state.sortOrder+"&role="+this.state.role
+        fetch(url, {
             method: 'GET',
         })
             .then((response) => response.json())
             .then((responseEmployee) => {
                 // this.setState({ data: responseHome.data.response })
-                // console.log(responseEmployee.data.response, 'response')
+                console.log(responseEmployee, 'response')
                 // console.log(responseHome.data.response,"CONTENT");
                 this.setState({ supportStaff: responseEmployee.data.response })
                 console.log(this.state.supportStaff, "pickerName")
@@ -124,12 +135,12 @@ export default class generateKeyScreen extends React.Component {
             date: this.state.date,
             deviceId: this.state.deviceId,
             employeeId: this.state.employeeId,
-            endTime: "12:00:00",
+            endTime: this.state.endTime,
             id: "",
-            startTime: "12:00:00"
+            startTime: this.state.startTime,
 
         }
-        fetch('http://103.79.223.60:8080/lockbox/core/v1/device/key/generator', {
+        fetch(GENERATE_KEY, {
             method: 'POST',
             headers: {
                 "content-type": 'application/json',
@@ -196,15 +207,15 @@ export default class generateKeyScreen extends React.Component {
                         />
                     </View>
                     <View style={styles.wrapp3}>
-                        <TouchableOpacity>
+
                         <TextInput style={styles.textInputStyle}
                             placeholder="Start Time"
-                            onFocus={this.showStartDatePicker}
+                            onTouchStart={this.showStartDatePicker}
                             value={this.state.startTime}
                         // onChange={(time) => { this.setState({ time: time }) }}
                         />
-                        
-                        </TouchableOpacity>
+
+
                         <DateTimePickerModal
                             style={{ width: 300, height: 40 }}
                             isVisible={this.state.isDatePickerVisible}
@@ -232,14 +243,14 @@ export default class generateKeyScreen extends React.Component {
                             }}
                         />
                     </View>
-                    <View style={styles.wrapp3}>
+                    <View style={styles.wrapp4}>
                         <TextInput style={styles.textInputStyle}
                             placeholder="End Time"
-                            onFocus={this.showEndDatePicker}
+                            onTouchStart={this.showEndDatePicker}
                             value={this.state.endTime}
                         // onChange={(time) => { this.setState({ time: time }) }}
                         />
-                        
+
                         <DateTimePickerModal
                             style={{ width: 300, height: 40 }}
                             isVisible={this.state.isDatePickerVisible}
@@ -266,8 +277,9 @@ export default class generateKeyScreen extends React.Component {
                             }}
                         />
                     </View>
-                    <View style={styles.wrapp3}>
-                        <Picker style={{ height: 40, width: 300, borderWidth: 5, borderRadius: 10, color: '#707070', fontFamily: 'QuickSand', fontSize: 18, fontWeight: 'bold' }}
+                    
+                    <View style={styles.pickerView}>
+                        <Picker style={{ height: 40, width: 300, color: '#707070', fontFamily: 'QuickSand', fontSize: 18, fontWeight: 'bold' }}
                             selectedValue={this.state.employee}
                             onValueChange={this.updateUser}>
                             {this.state.supportStaff.map((item) => (
@@ -275,6 +287,7 @@ export default class generateKeyScreen extends React.Component {
                             ))}
                         </Picker >
                     </View>
+
                     <View style={styles.wrapp2}>
                         <TouchableOpacity
                             style={styles.touchableopacityStyle}>
@@ -316,7 +329,8 @@ const styles = StyleSheet.create({
         borderColor: '#E6E6E6',
         paddingLeft: 10,
         fontWeight: 'bold',
-        fontSize: 18
+        fontSize: 18,
+
     },
     touchableopacityStyle: {
         alignItems: 'center',
@@ -337,9 +351,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 40
+        paddingTop: 40,
+        paddingBottom: 20
 
     },
+
     wrapp3: {
         justifyContent: 'flex-start',
         backgroundColor: '#FFFFFF',
@@ -347,8 +363,24 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
 
     },
-    placeholder: {
-        fontSize: 18,
-        textAlign: 'left'
+    wrapp4: {
+        justifyContent: 'flex-start',
+        backgroundColor: '#FFFFFF',
+        paddingTop: 30,
+        flexDirection: 'row',
+        paddingBottom:30
+
+    },
+
+    pickerView: {
+        backgroundColor: '#FFFFFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#E6E6E6',
+        height: 40,
+        width: 300,
+        borderWidth: .5,
+        borderRadius: 10,
+
     }
 });

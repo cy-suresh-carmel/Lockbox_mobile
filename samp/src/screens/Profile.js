@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Image, AsyncStorage, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { Button, Container, Header, Left, Body, Right, Icon, Title } from 'native-base';
+import {USER_DETAILS} from '../constants/ApiUrl';
 import ProfileHeader from '../ProfileHeader';
 import AlertPro from 'react-native-alert-pro';
 export default class Profile extends React.Component {
@@ -18,18 +19,19 @@ export default class Profile extends React.Component {
   async componentDidMount() {
     let user = await AsyncStorage.getItem('email');
     this.setState({ email: user })
-    const params = new URLSearchParams({
+    // const params = new URLSearchParams({
 
-      userId: this.state.email
+    //   userId: this.state.email
 
-    })
-    fetch(`http://103.79.223.60:8080/lockbox/core/v1/employee/detail?${params.toString()}`, {
+    // })
+    let url=USER_DETAILS+this.state.email
+    fetch(url, {
       method: 'GET',
 
     })
       .then((response) => response.json())
       .then((responseUser) => {
-        // console.log(responseUser, "data")
+         console.log(responseUser, "data")
         this.setState({ data: responseUser.data })
         AsyncStorage.setItem("userDetails", responseUser)
         // console.log(this.state.data.addressResponse.addressDetail,"detail")
