@@ -70,7 +70,7 @@ export default class HomeScreen extends React.Component {
       .then((response) => response.json())
       .then((responseHome) => {
         this.setState({ data: responseHome.data.response })
-        // console.log(responseHome.data, 'response')
+        console.log(responseHome, 'response')
         let count =
           parseInt(responseHome.data.response.length / contentPerPage) +
           (responseHome.data.response.length % contentPerPage > 0);
