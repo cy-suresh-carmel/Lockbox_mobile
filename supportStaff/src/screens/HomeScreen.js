@@ -1,7 +1,59 @@
 import React, { Component } from 'react';
-import { View, Text, Button, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import CustomHeader from '../customHeader';
+import { View, Text, Button, AsyncStorage,TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { FILTER_DEVICE,FILTER_KEY } from '../constants/ApiUrl';
+
 export default class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+     email: '',
+    };
+}
+  //To display UserDetails:
+   async componentDidMount() {
+    let user =  await AsyncStorage.getItem('email');
+    this.setState({ email: user })
+   //console.log(this.state.email, "email console");
+   this.HomeDetails();
+  }
+
+  HomeDetails = () => {
+    const index = 0;
+    const parameters = {
+      "date": "2020-05-19 2:36:34",
+      "deviceId": "",
+      "employeeId": "6e9f58d8-01c0-4cb0-a6d3-5cfebd9fc999",
+      "endTime": "",
+      "id": "",
+      "paginationRequest": {
+        "pageNumber": 0,
+        "pageSize": 10,
+        "searchKey": "",
+        "sortKey": "activated_on",
+        "sortOrder": "desc"
+      },
+      "startTime": ""
+    }
+    fetch(FILTER_KEY, {
+      method: 'POST',
+      headers: {
+        "content-type": 'application/json',
+      },
+      body: JSON.stringify(parameters),
+    })
+
+      .then((response) => response.json())
+      .then((responseHome) => {
+        //this.setState({ data: responseHome.data.response })
+        console.log(responseHome, 'response from HomeScreen')
+        
+      })
+   
+
+  }
+
+
+
   render() {
     return (
       <View style={{ flex: 1 }}>

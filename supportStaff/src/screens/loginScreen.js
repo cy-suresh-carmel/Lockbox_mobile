@@ -37,7 +37,7 @@ export default class loginScreen extends Component {
                     this.props.navigation.navigate('Home', { email: this.state.email, password: this.state.password, data: responseData })
                 }
                 else {
-                    console.log(responseData, "response")
+                    //console.log(responseData, "response")
                     Alert("Invalid request")
                 }
                 // AsyncStorage.setItem(responseData.access_token);
@@ -45,8 +45,8 @@ export default class loginScreen extends Component {
             .catch(error => { console.log('error', error) })
     }
     render() {
-        console.log(this.state.email, 'email')
-        console.log(this.state.password, 'password')
+        //console.log(this.state.email, 'email')
+        //console.log(this.state.password, 'password')
         return (
             <View style={styles.wrapper}>
                 <Image
