@@ -7,6 +7,7 @@ export default class HomeScreen extends Component {
     super(props);
     this.state = {
      email: '',
+     address: '',
     };
 }
   //To display UserDetails:
@@ -44,9 +45,8 @@ export default class HomeScreen extends Component {
 
       .then((response) => response.json())
       .then((responseHome) => {
-        //this.setState({ data: responseHome.data.response })
-        console.log(responseHome, 'response from HomeScreen')
-        
+        this.setState({ address: responseHome.data.response[0].address})
+        //console.log(this.state.address, 'response from HomeScreen')
       })
    
 
@@ -56,6 +56,7 @@ export default class HomeScreen extends Component {
 
   render() {
     return (
+    
       <View style={{ flex: 1 }}>
         <View style={{ backgroundColor: '#066DB3', height: 400, width: 400 }}>
           <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
