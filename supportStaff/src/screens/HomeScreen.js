@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, Button, AsyncStorage,TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { FILTER_DEVICE,FILTER_KEY } from '../constants/ApiUrl';
+import { FILTER_DEVICE,FILTER_KEY, USER_DETAILS } from '../constants/ApiUrl';
 
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+     midView: true,
      email: '',
      address: '',
+     startTime: '',
+     endTime: '',
     };
 }
   //To display UserDetails:
@@ -46,53 +49,180 @@ export default class HomeScreen extends Component {
       .then((response) => response.json())
       .then((responseHome) => {
         this.setState({ address: responseHome.data.response[0].address})
-        //console.log(this.state.address, 'response from HomeScreen')
+        //console.log(responseHome, 'response from HomeScreen')
       })
-   
+
+////////////////////////////////////////////////
+
+let emailId = AsyncStorage.getItem("email");
+console.log(emailId,"email id from HomeScreen")
+fetch(USER_DETAILS+emailId, {
+  method: 'GET',
+  headers: {
+    "content-type": 'application/json',
+  },
+})
+
+  .then((response) => response.json())
+  .then((responseHome) => {
+    //this.setState({ address: responseHome.data.response[0].address})
+    console.log(responseHome, 'response user details from HomeScreen')
+  })
+
+
+
+
+
+
 
   }
 
+
+  
+  onUnlock = () => {
+    this.setState({
+      midView: !this.state.midView
+    })
+  }
+  onLock=()=>{
+    this.setState({
+      midView: this.state.midView
+    })
+  }
 
 
   render() {
     return (
     
-      <View style={{ flex: 1 }}>
-        <View style={{ backgroundColor: '#066DB3', height: 400, width: 400 }}>
+      <View style={styles.container}>
+        <View style={styles.viewStyle1}>
           <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
-            <Image style={{ height: 30, width: 30, margin: 25 }}
+            <Image style={{ height: 30, width: 30, margin: 30 }}
               source={require('../Images/menu1.png')} />
           </TouchableOpacity>
-          <View style={{ justifyContent: 'center', alignItems: 'center', paddingRight: 40 }}>
+          <View style={styles.viewStyle2}>
             <Image style={{ height: 70, width: 50 }}
               source={require('../Images/location2.png')} />
-            <Text style={{ color: '#ffff', fontSize: 20, fontFamily: 'Quicksand', fontWeight: 'bold', letterSpacing: 0.5, paddingTop: 10 }}>6375 Dixie Rd,Missisauga,on</Text>
-            <Text style={{ color: '#ffff', fontSize: 20, fontFamily: 'Quicksand', fontWeight: 'bold', letterSpacing: 0.5 }}>belongs to : Bell Telecom</Text>
+            <Text style={styles.textStyle1}>{this.state.address}</Text>
+            <Text style={styles.textStyle2}>belongs to : Bell Telecom</Text>
           </View>
-        </View>
-        
-        <View style={{flex:1,justifyContent:'center',alignItems:'center',margin:10,backgroundColor:'#ffff',borderRadius:20,position:'absolute'}}>
-          <Text style={{color:'#707070',fontSize:16,letterSpacing:0.3,margin:20}}>Recieved Security code to access the lockBox between 11.00am to 12:00pm</Text>
-          <Image style={{height:300,width:300}}
-          source={require('../Images/closeLock.png')}/> 
-        </View>
-        <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-          <TouchableOpacity style={{ alignItems: 'center',justifyContent: 'center',backgroundColor: '#066DB3', width: 280,height: 50,borderRadius: 12,borderRadius: 25}} onPress={()=>this.props.navigation.navigate('unlockKey')}>
-            <Text style={{color: '#ffff', fontSize: 20, fontFamily: 'Quicksand', fontWeight: 'bold', letterSpacing: 0.5 }}>Unlock Key</Text>
-          </TouchableOpacity>
+          <View>
+
+            {this.state.midView ? (
+              <View>
+                <View style={styles.boxstyle}>
+                  <Text style={styles.textStyle3}>Recieved Security code to access the lockBox between 11.00am to 12:00pm</Text>
+                  <Image style={{ height: 210, width: 300 }}
+                    source={require('../Images/closeLock.png')} />
+                </View>
+                <View style={styles.touchableView}>
+                  <TouchableOpacity
+                    style={styles.touchableOpacityStyle}
+                    onPress={() => this.onUnlock()}>
+                    <Text style={styles.textStyle4}>Open LockBox</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : (
+                <View>
+                  <View style={styles.boxstyle}>
+                    <Text style={styles.textStyle3}>Recieved Security code to access the lockBox between 11.00am to 12:00pm</Text>
+                    <Image style={{ height: 210, width: 300 }}
+                      source={require('../Images/openLock.png')} />
+                  </View>
+                  <View style={styles.touchableView}>
+                    <TouchableOpacity
+                      style={styles.touchableOpacityStyle}
+                      onPress={() => this.onlock()}>
+                      <Text style={styles.textStyle4}>Return Key and unLock</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+
+          </View>
         </View>
       </View>
     );
   }
 }
+
 const styles = StyleSheet.create({
-  textStyle: {
+  container: {
+    flex: 1
+  },
+  viewStyle1: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    backgroundColor: '#066DB3',
+    height: 400
+  },
+  viewStyle2: {
+    flex: 0.4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 40,
+    paddingBottom: 70,
+    
+  },
+  textStyle1: {
     color: '#ffff',
     fontSize: 20,
     fontFamily: 'Quicksand',
     fontWeight: 'bold',
     letterSpacing: 0.5,
     paddingTop: 10
-
+  },
+  textStyle2: {
+    color: '#ffff',
+    fontSize: 20,
+    fontFamily: 'Quicksand',
+    fontWeight: 'bold',
+    letterSpacing: 0.5
+  },
+  boxstyle: {
+    flex:1,
+    height: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 30,
+    backgroundColor: '#ffff',
+    borderRadius: 20,
+    position: 'absolute',
+    paddingBottom: 20
+  },
+  textStyle3: {
+    color: '#707070',
+    fontSize: 14,
+    letterSpacing: 0.3,
+    margin: 15,
+    paddingBottom:10
+  },
+  touchableView: {
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 70,
+    paddingTop:100
+    
+ 
+  },
+  touchableOpacityStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#066DB3',
+    width: 210,
+    height: 45,
+    borderRadius: 12,
+    borderRadius: 25
+  },
+  textStyle4: {
+    color: '#ffff',
+    fontSize: 14,
+    fontFamily: 'Quicksand',
+    fontWeight: 'bold',
+    letterSpacing: 0.5
   }
+
+
 })

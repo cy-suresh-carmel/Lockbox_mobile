@@ -27,7 +27,7 @@ export default class loginScreen extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
-            //console.log(responseData,"------> response2")
+            console.log(responseData,"------> loginpage")
 
                 var prop = 'access_token'
                 if (responseData.hasOwnProperty(prop)) {
