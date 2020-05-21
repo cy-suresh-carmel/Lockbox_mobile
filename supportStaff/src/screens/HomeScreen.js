@@ -54,9 +54,8 @@ export default class HomeScreen extends Component {
 
 ////////////////////////////////////////////////
 
-let emailId = AsyncStorage.getItem("email");
-console.log(emailId,"email id from HomeScreen")
-fetch(USER_DETAILS+emailId, {
+
+fetch(USER_DETAILS+this.state.email, {
   method: 'GET',
   headers: {
     "content-type": 'application/json',
