@@ -8,6 +8,7 @@ const FILTER_DEVICE = `${BASE_URL}core/v1/device/filter`;
 const GENERATE_KEY = `${BASE_URL}core/v1/device/key/generator`;
 const EMPLOYEE_ALL=`${BASE_URL}core/v1/employee/all?`;
 const FILTER_KEY =  `${BASE_URL}core/v1/device/key/all`;
+const HISTORY_KEY=`${BASE_URL}core/v1/activity/filter`;
 
 
 export {
@@ -17,5 +18,6 @@ export {
     FILTER_DEVICE,
     GENERATE_KEY,
     EMPLOYEE_ALL,
-    FILTER_KEY
+    FILTER_KEY,
+    HISTORY_KEY
 };
