@@ -9,6 +9,7 @@ export default class HomeScreen extends Component {
      midView: true,
      email: '',
      address: '',
+     employeeId: '',
      startTime: '',
      endTime: '',
     };
@@ -48,11 +49,11 @@ export default class HomeScreen extends Component {
 
       .then((response) => response.json())
       .then((responseHome) => {
-        this.setState({ address: responseHome.data.response[0].address})
-        //console.log(responseHome, 'response from HomeScreen')
-      })
-
-////////////////////////////////////////////////
+        this.setState({ address: responseHome.data.response[0].address});
+        this.setState({ startTime: responseHome.data.response[0].startTime});
+        this.setState({ endTime: responseHome.data.response[0].endTime});
+        console.log(responseHome,"response from HomeScreen");
+      });
 
 
 fetch(USER_DETAILS+this.state.email, {
@@ -64,8 +65,8 @@ fetch(USER_DETAILS+this.state.email, {
 
   .then((response) => response.json())
   .then((responseHome) => {
-    //this.setState({ address: responseHome.data.response[0].address})
-    console.log(responseHome, 'response user details from HomeScreen')
+    this.setState({ employeeId: responseHome.data.employeeId})
+    //sconsole.log(responseHome, 'response from HomeScreen')
   })
 
 
@@ -110,7 +111,7 @@ fetch(USER_DETAILS+this.state.email, {
             {this.state.midView ? (
               <View>
                 <View style={styles.boxstyle}>
-                  <Text style={styles.textStyle3}>Recieved Security code to access the lockBox between 11.00am to 12:00pm</Text>
+                  <Text style={styles.textStyle3}>Recieved Security code to access the lockBox between {this.state.startTime} to {this.state.endTime}</Text>
                   <Image style={{ height: 210, width: 300 }}
                     source={require('../Images/closeLock.png')} />
                 </View>
