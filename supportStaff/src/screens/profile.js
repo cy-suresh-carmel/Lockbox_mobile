@@ -1,7 +1,43 @@
 import React,{Component} from 'react';
-import {View,Text,Button,TouchableOpacity,StyleSheet,Image}from 'react-native';
+import {View,Text,Button,TouchableOpacity,StyleSheet,Image,AsyncStorage}from 'react-native';
 import ProfileHeader from '../ProfileHeader';
+import {USER_DETAILS} from '../constants/ApiUrl';
 export default class ProfileScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      data: [],
+      addressDetail: '',
+    };
+  }
+   //To display UserDetails:
+   async componentDidMount() {
+    let user = await AsyncStorage.getItem('email');
+    this.setState({ email: user })
+    // const params = new URLSearchParams({
+
+    //   userId: this.state.email
+
+    // })
+    let url=USER_DETAILS+this.state.email
+    fetch(url, {
+      method: 'GET',
+
+    })
+      .then((response) => response.json())
+      .then((responseUser) => {
+         console.log(responseUser, "data")
+        this.setState({ data: responseUser.data })
+        console.log(responseUser.data,"data4")
+        AsyncStorage.setItem("userDetails", responseUser)
+        console.log(this.state.data.addressResponse.addressDetail,"detail")
+        this.setState({ addressDetail: this.state.data.addressResponse.addressDetail })
+      })
+  }
+
+
     render() {
       return (
         <View style={{ flex: 1 }}>
@@ -9,9 +45,9 @@ export default class ProfileScreen extends Component {
                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 400 }}>
           <Image source={require('../Images/menu2.png')}
             style={[{ height: 130, width: 130 }]} />
-          <Text style={{ fontSize: 20, color: '#707070', fontWeight: 'bold' }}>Jeff Tom</Text>
-          <Text style={{ fontSize: 16, color: '#707070' }}>jeff@yahoo.com</Text>
-          <Text style={{ fontSize: 16, color: '#707070' }}>Bell Support Services Inc.</Text>
+          <Text style={{ fontSize: 20, color: '#707070', fontWeight: 'bold' }}>{this.state.data.firstName} {this.state.data.lastName}</Text>
+          <Text style={{ fontSize: 16, color: '#707070' }}>{this.state.addressDetail}</Text>
+          <Text style={{ fontSize: 16, color: '#707070' }}>{this.state.data.email}</Text>
           <View>
             <TouchableOpacity
               style={styles.touchableopacityStyle}
