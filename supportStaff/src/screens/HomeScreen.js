@@ -9,9 +9,10 @@ export default class HomeScreen extends Component {
      midView: true,
      email: '',
      address: '',
-     employeeId: '',
      startTime: '',
      endTime: '',
+     deviceCode: '',
+     businessUserName: ''
     };
 }
   //To display UserDetails:
@@ -23,7 +24,6 @@ export default class HomeScreen extends Component {
   }
 
   HomeDetails = () => {
-    const index = 0;
     const parameters = {
       "date": "2020-05-19 2:36:34",
       "deviceId": "",
@@ -52,28 +52,36 @@ export default class HomeScreen extends Component {
         this.setState({ address: responseHome.data.response[0].address});
         this.setState({ startTime: responseHome.data.response[0].startTime});
         this.setState({ endTime: responseHome.data.response[0].endTime});
-        console.log(responseHome,"response from HomeScreen");
+        this.setState({deviceCode: responseHome.data.response[0].deviceCode})
+        //console.log(this.state.deviceCode,"deviceCode from HomeScreen");
       });
 
-
-fetch(USER_DETAILS+this.state.email, {
-  method: 'GET',
-  headers: {
-    "content-type": 'application/json',
-  },
-})
-
-  .then((response) => response.json())
-  .then((responseHome) => {
-    this.setState({ employeeId: responseHome.data.employeeId})
-    //sconsole.log(responseHome, 'response from HomeScreen')
+  const filterDeviceParameters = {
+    "code": "PTF 86 U8T4",
+    "employee": "",
+    "location": "",
+    "paginationRequest": {
+      "pageNumber": 0,
+      "pageSize": 10,
+      "searchKey": "",
+      "sortKey": "",
+      "sortOrder": "asc"
+    }
+  }
+  fetch(FILTER_DEVICE, {
+    method: 'POST',
+    headers: {
+      "content-type": 'application/json',
+    },
+    body: JSON.stringify(filterDeviceParameters),
   })
 
-
-
-
-
-
+    .then((response) => response.json())
+    .then((responseHome) => {
+      this.setState({ businessUserName: responseHome.data.response[0].employeeFullName })
+      //console.log(this.state.businessUserName, 'businessUserName filter device response')
+      
+    })
 
   }
 
@@ -104,7 +112,7 @@ fetch(USER_DETAILS+this.state.email, {
             <Image style={{ height: 70, width: 50 }}
               source={require('../Images/location2.png')} />
             <Text style={styles.textStyle1}>{this.state.address}</Text>
-            <Text style={styles.textStyle2}>belongs to : Bell Telecom</Text>
+              <Text style={styles.textStyle2}>belongs to : {this.state.businessUserName}</Text>
           </View>
           <View>
 
