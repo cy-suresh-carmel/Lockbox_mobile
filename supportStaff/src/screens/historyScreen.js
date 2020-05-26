@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,ScrollView,AsyncStorage } from 'react-native';
 import { List, ListItem } from 'native-base';
 import { Divider } from 'react-native-elements';
 import Header from '../Header';
@@ -23,16 +23,34 @@ export default class historyScreen extends Component {
       fromDate: "",
       location: "",
       module: "",
+      supportStaff:[],
+      empId:''
 
 
     };
   }
-  componentDidMount = () => {
+  async componentDidMount() {
     console.log("Component did mount inside")
-    this.HomeDetails();
+     let user = await AsyncStorage.getItem('email');
+    this.setState({ email: user })
+      console.log(this.state.email, "email console");
+       let url=USER_DETAILS+this.state.email
+    fetch(url, {
+      method: 'GET',
+
+    })
+      .then((response) => response.json())
+      .then((responseUser) => {
+         console.log(responseUser, "data J")
+         this.setState({empId:responseUser.data.employeeId})
+         console.log(this.state.empId,"employeeId")
+         })
+
+
+    this.HistoryDetails();
   }
 
-  HomeDetails = () => {
+  HistoryDetails = () => {
     console.log("home")
     const index = 0;
     const parameters = {
@@ -43,7 +61,7 @@ export default class historyScreen extends Component {
       "id": "",
       "paginationRequest": {
         "pageNumber": 0,
-        "pageSize": 10,
+        "pageSize": 20,
         "searchKey": "",
         "sortKey": "activated_on",
         "sortOrder": "desc"
@@ -60,60 +78,21 @@ export default class historyScreen extends Component {
 
       .then((response) => response.json())
       .then((responseHome) => {
-        this.setState({ address: responseHome.data.response[0].address });
-        this.setState({ startTime: responseHome.data.response[0].startTime });
-        console.log(responseHome.data.response[0].startTime, "startTime")
-        console.log(responseHome.data.response[0].address, "address");
+        this.setState({ supportStaff: responseHome.data.response });
+        //this.setState({ startTime: responseHome.data.response[0].startTime });
+        console.log(responseHome.data.response, "startTime")
+        //console.log(responseHome.data.response[0].address, "address");
         console.log(responseHome, "response from HomeScreen")
 
       })
   }
 
 
-
-//   historyAction = () => {
-//     const params = {
-//         {
-//       "action": "",
-//       "description": "",
-//       "device": "",
-//       "employee": "",
-//       "employeeType": "",
-//       "fromDate": "",
-//       "location": "",
-//       "module": "",
-//       "paginationRequest": {
-//       "pageNumber": 0,
-//       "pageSize": 10,
-//       "searchKey": "",
-//       "sortKey": "activated_on",
-//       "sortOrder": ""
-//       },
-//       "toDate": ""
-//     }
-//     fetch(HISTORY_KEY){
-//       method: 'POST',
-//       headers: {
-//         "content-type": 'application/json',
-//       },
-//       body: JSON.stringify(params),
-//     })
-
-//       .then((response) => response.json())
-//       .then((responseHistory) => {
-//         console.log(responseHistory, "response from History")
-//         this.setState({ data: responseHome.data.response});
-
-
-//       })
-//   }
-
-// }
-
 render() {
   return (
     <View style={{ flex: 1 }}>
       <Header title="History" navigation={this.props.navigation} />
+      <ScrollView>
       <View style={{ margin: 10 }}>
         <View style={styles.viewStyle}>
           <Text style={styles.textStyle}>Location</Text>
@@ -121,16 +100,23 @@ render() {
         </View>
 
         <Divider style={styles.DividerStyle} />
+
+        {this.state.supportStaff.map((item)=>(
+        <View>
         <View style={styles.viewStyle}>
-          <Text style={styles.textStyle1}>{this.state.address}</Text>
-          <Text style={styles.textStyle1}>{this.state.date}</Text>
+          <Text style={styles.textStyle1}>{item.address}</Text>
+          <Text style={styles.textStyle1}>{item.endTime}</Text>
         </View>
         <View style={{ justifyContent: 'flex-end', alignItems: 'center', paddingLeft: 80, paddingBottom: 5 }}>
           <Text style={styles.textStyle}>EST</Text>
 
         </View>
         <Divider style={styles.DividerStyle} />
+        </View>
+        ))}
+       
       </View>
+      </ScrollView>
 
 
 
