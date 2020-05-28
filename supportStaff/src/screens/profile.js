@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import {View,Text,Button,TouchableOpacity,StyleSheet,Image,AsyncStorage}from 'react-native';
+import AlertPro from 'react-native-alert-pro';
 import ProfileHeader from '../ProfileHeader';
 import {USER_DETAILS} from '../constants/ApiUrl';
 export default class ProfileScreen extends Component {
@@ -51,11 +52,12 @@ export default class ProfileScreen extends Component {
           <View>
             <TouchableOpacity
               style={styles.touchableopacityStyle}
-               onPress={()=>this.props.navigation.navigate('auth')}>
+              onPress={() => this.AlertPro.open()}>
+              {/* // onPress={()=>this.props.navigation.navigate('auth')}> */}
               <Text style={styles.textStyle1}>Sign Out</Text>
             </TouchableOpacity>
           </View>
-          {/* <AlertPro
+          <AlertPro
             ref={ref => {
               this.AlertPro = ref;
             }}
@@ -83,7 +85,7 @@ export default class ProfileScreen extends Component {
                 backgroundColor: "#ffa31a"
               }
             }}
-          /> */}
+          />
         </View>
       </View>
 

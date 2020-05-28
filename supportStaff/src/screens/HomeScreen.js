@@ -119,32 +119,32 @@ export default class historyScreen extends Component {
         {this.state.midView === true ? (
           <>
             <View style={styles.viewStyle1}>
-              <Text style={styles.textStyle3}> Recieved Security code to access the lockBox between to {this.state.startTime} to{this.state.endTime} </Text>
+              <Text style={styles.textStyle3}> Recieved Security code to access the lockBox between {this.state.startTime} to {this.state.endTime} </Text>
               <View>
                 <Image style={{ height: 210, width: 280, margin: 10 }}
                   source={require('../Images/closeLock.png')} />
               </View>
             </View>
 
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:30 }}>
               <TouchableOpacity
                 style={styles.touchableOpacityStyle}
                 onPress={() => this.onLock()}>
-                <Text style={styles.textStyle4}>Open Lockbox</Text>
+                <Text style={styles.textStyle4}>Open LockBox</Text>
               </TouchableOpacity>
             </View>
           </>
         ) : (
             <>
               <View style={styles.viewStyle1}>
-        <Text style={styles.textStyle3}> Recieved Security code to access the lockBox between to {this.state.startTime} to {this.state.endTime}</Text>
+        <Text style={styles.textStyle3}> Recieved Security code to access the lockBox between {this.state.startTime} to {this.state.endTime}</Text>
                 <View>
                   <Image style={{ height: 210, width: 280, margin: 10 }}
                     source={require('../Images/openLock.png')}/>
                 </View>
               </View>
 
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' ,marginTop:30}}>
                 <TouchableOpacity
                   style={styles.touchableOpacityStyle}
                   onPress={() => this.onUnlock()}>
@@ -169,8 +169,8 @@ const styles = StyleSheet.create({
     width: 330,
     alignItems: 'center',
     justifyContent: 'center',
-    // marginLeft: 30,
-    marginHorizontal: 30,
+    margin: 30,
+   
     borderRadius: 30,
     borderWidth: 1,
     borderColor: '#E6E6E6',
@@ -210,9 +210,9 @@ const styles = StyleSheet.create({
   },
   textStyle3: {
     color: '#707070',
-    fontSize: 14,
+    fontSize: 16,
     letterSpacing: 0.3,
-    margin: 15,
+    margin: 10,
     paddingBottom: 10,
   },
   touchableView: {

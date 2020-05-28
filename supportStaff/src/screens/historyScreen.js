@@ -105,10 +105,10 @@ render() {
         <View>
         <View style={styles.viewStyle}>
           <Text style={styles.textStyle1}>{item.address}</Text>
-          <Text style={styles.textStyle1}>{item.endTime}</Text>
+          <Text style={styles.textStyle1}>{item.date} {item.endTime} EST</Text>
         </View>
-        <View style={{ justifyContent: 'flex-end', alignItems: 'center', paddingLeft: 80, paddingBottom: 5 }}>
-          <Text style={styles.textStyle}>EST</Text>
+        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', paddingBottom: 5 ,marginRight:20}}>
+          <Text style={styles.textStyle}>2020-05-19 2:36:34</Text>
 
         </View>
         <Divider style={styles.DividerStyle} />
