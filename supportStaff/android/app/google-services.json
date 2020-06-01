@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "59102597868",
+    "firebase_url": "https://pushnotification-d3c25.firebaseio.com",
+    "project_id": "pushnotification-d3c25",
+    "storage_bucket": "pushnotification-d3c25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59102597868:android:dccf65b9f2f7968f9b4bc9",
+        "android_client_info": {
+          "package_name": "com.supportstaff"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "59102597868-tl2so2a4endv102b41j54snpc4dkvqv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiGpvbvBG6ztCVzo7xznxyZs5Emi9aNLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "59102597868-tl2so2a4endv102b41j54snpc4dkvqv0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
