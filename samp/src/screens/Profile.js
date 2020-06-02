@@ -45,11 +45,11 @@ export default class Profile extends React.Component {
         <ProfileHeader title="Profile" isHome={false} navigation={this.props.navigation} />
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 400 }}>
           <Image source={require('../Images/menu2.png')}
-            style={[{ height: 130, width: 130 }]} />
+            style={[{ height: 120, width: 120 }]} />
           <Text style={{ fontSize: 20, color: '#707070', fontWeight: 'bold' }}>{this.state.data.firstName} {this.state.data.lastName}</Text>
-          <Text style={{ fontSize: 16, color: '#707070' }}>{this.state.addressDetail}</Text>
-          <Text style={{ fontSize: 16, color: '#707070' }}>{this.state.data.email}</Text>
-          <View>
+          <Text style={styles.textStyle2}>{this.state.addressDetail}</Text>
+          <Text style={styles.textStyle2}>{this.state.data.email}</Text>
+          <View style={{flex:1,margin:5}}>
             <TouchableOpacity
               style={styles.touchableopacityStyle}
               onPress={() => this.AlertPro.open()}>
@@ -63,7 +63,7 @@ export default class Profile extends React.Component {
             }}
             onConfirm={() => this.props.navigation.navigate('auth')}
             onCancel={() => this.AlertPro.close()}
-            title="Sign Out?"
+            title="Sign Out"
             message="Are you sure you want to Sign out?"
             textConfirm="Sign Out"
             textCancel="Cancel"
@@ -130,5 +130,9 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600"
+  },
+  textStyle2:{
+    fontSize: 16, 
+    color: '#707070'
   }
 });

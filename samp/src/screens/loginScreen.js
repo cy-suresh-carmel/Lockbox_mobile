@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput, Image, Text, Button, TouchableOpacity, Alert, AsyncStorage } from 'react-native';
-import {LOGIN_TOKEN} from '../constants/ApiUrl';
+import { LOGIN_TOKEN } from '../constants/ApiUrl';
+console.disableYellowBox = true;
 export default class loginScreen extends Component {
     constructor(props) {
         super(props);
@@ -39,7 +40,8 @@ export default class loginScreen extends Component {
                 }
                 else {
                     console.log(responseData, "response")
-                    Alert("Invalid request")
+                    alert("Invalid request");
+
                 }
                 // AsyncStorage.setItem(responseData.access_token);
             })
@@ -73,6 +75,7 @@ export default class loginScreen extends Component {
                         onChangeText={(password) => this.setState({ password })}
                     />
                 </View>
+                <Text>{this.state.Alert}</Text>
                 <View style={styles.wrapp2}>
                     <TouchableOpacity
                         style={styles.touchableopacityStyle}

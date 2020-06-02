@@ -12,7 +12,6 @@ export default class generateKeyScreen extends React.Component {
         //set value in state for initial date
         this.state = {
             date: "",
-            // time: "",
             startTime: "",
             endTime: "",
             id: '',
@@ -83,6 +82,7 @@ export default class generateKeyScreen extends React.Component {
             // this.hideStartDatePicker();
             // console.log(this.state.startTime,"startTime")
         }
+        console.log("A date has been picked: ", date);
         // this.setState({ startTime: sTime[0] + ':' + sTime[1],isDatePickerVisible:false })
         // console.log(sTime[0] + ':' + sTime[1])
 
@@ -90,6 +90,10 @@ export default class generateKeyScreen extends React.Component {
         // console.log(this.state.startTime,"starttime1")
         // this.hideDatePicker();
     };
+
+    confirmDate=()=>{
+     this.setState({date:this.state.date})
+	}
 
     updateUser = (user) => {
         this.setState({ employee: user })
@@ -131,7 +135,7 @@ export default class generateKeyScreen extends React.Component {
         console.log(this.state.employee, "picker value")
 
         const data = {
-
+            createdBy:this.state.employee,
             date: this.state.date,
             deviceId: this.state.deviceId,
             employeeId: this.state.employeeId,
@@ -163,7 +167,42 @@ export default class generateKeyScreen extends React.Component {
                 <View style={styles.wrapper}>
                     <Text style={styles.textStyle}>Device Id:  {this.state.deviceId}</Text>
                     <View style={styles.wrapp3}>
-                        <DatePicker
+                    <TextInput style={styles.textInputStyle}
+                            placeholder="Date & Time"
+                            onTouchStart={this.showDatePicker}
+                            value={this.state.date}
+                            
+                            // onDateChange={(date) => { this.setState({ date: date }) }}
+                         onChange={(date) => { this.setState({ date: date }) }}
+                        />
+
+                    <DateTimePickerModal
+                            style={{ width: 300, height: 40 }}
+                            isVisible={this.state.isDatePickerVisible}
+                            mode="datetime"
+                            placeholder="Date & Time"
+                            format="YYYY-MM-DD hh:mm:ss"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+
+                                placeholderText: {
+                                    fontWeight: 'bold',
+                                    fontSize: 18,
+                                    color: '#707070',
+                                    opacity: .2,
+                                    left: 0,
+                                    paddingRight: 250
+                                },
+                                dateInput: {
+                                    borderWidth: .5,
+                                    borderRadius: 10,
+                                    borderColor: '#E6E6E6'
+                                }
+                            }}
+                        />
+
+                        {/* <DatePicker
                             style={{ width: 300, height: 40 }}
                             date={this.state.date} //initial date from state
                             mode="date" //The enum of date, datetime and time
@@ -204,7 +243,7 @@ export default class generateKeyScreen extends React.Component {
                                 }
                             }}
                             onDateChange={(date) => { this.setState({ date: date }) }}
-                        />
+                        /> */}
                     </View>
                     <View style={styles.wrapp3}>
 

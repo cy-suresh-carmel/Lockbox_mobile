@@ -45,7 +45,7 @@ export default class HeaderIcon extends Component {
               />
             </View>
             <View style={{ flex: 1, justifyContent: 'flex-start', paddingTop: 60 }}>
-              <Text style={{ color: '#707070', fontSize: 20, fontFamily: 'Quicksand', fontWeight: '200' }}>{this.state.data.firstName} {this.state.data.lastName}</Text>
+              <Text style={{ color: '#707070', fontSize: 18, fontFamily: 'Quicksand', fontWeight: '200',paddingLeft:3 }}>{this.state.data.firstName} {this.state.data.lastName}</Text>
             </View>
           </View>
         </ListItem>
