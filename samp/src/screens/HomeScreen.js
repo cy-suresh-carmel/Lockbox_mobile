@@ -16,7 +16,10 @@ export default class HomeScreen extends React.Component {
       data: [],
       userRole: '',
       pagination: [],
-      selected: 0
+      selected: 0,
+      userMan:'',
+      employee:'',
+      
     };
 }
 
@@ -31,25 +34,31 @@ export default class HomeScreen extends React.Component {
     // })
 
     let url=USER_DETAILS+this.state.email
-    fetch(url, {
+    await fetch(url, {
       method: 'GET',
     })
       .then((response) => response.json())
       .then((responseUser) => {
-        console.log(responseUser,"responseuser")
-        console.log(responseUser.data.userRole,'userRole');
-        this.setState({ userRole: responseUser.data.userRole })
+        // console.log(responseUser,"responseuser")
+        // console.log(responseUser.data.employeeId ,'userRole');
+        this.setState({ userMan: responseUser.data.employeeId })
+        //  console.log(this.state.userMan,"employeeIdUs");
+        // let eId = responseUser.data.employeeId
+        // this.setState({ userRole: responseUser.data.userRole })
+        // console.log(userRole,"userRole")
         // AsyncStorage.setItem("userDetails", responseUser)
       })
+     
     this.HomeDetails();
   }
 
   //To display all locations in Home page:
   HomeDetails = () => {
+    console.log(this.state.userMan,"employeeId1")
     const index = 0;
     const dataa = {
       "code": "",
-      "employee": "",
+      "employee": this.state.userMan,
       "location": "",
       "paginationRequest": {
         "pageNumber": 0,

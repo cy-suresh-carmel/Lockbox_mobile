@@ -41,7 +41,7 @@ export default class HeaderIcon extends Component {
           <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
             <View style={{ height: 150, justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
               <Image source={require('./Images/menu2.png')}
-                style={[{ height: 60, width: 60 }]}
+                style={[{ height: 80, width: 80 }]}
               />
             </View>
             <View style={{ flex: 1, justifyContent: 'flex-start', paddingTop: 60 }}>

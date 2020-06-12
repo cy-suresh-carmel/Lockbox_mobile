@@ -46,7 +46,7 @@ export default class Profile extends React.Component {
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 400 }}>
           <Image source={require('../Images/menu2.png')}
             style={[{ height: 120, width: 120 }]} />
-          <Text style={{ fontSize: 20, color: '#707070', fontWeight: 'bold' }}>{this.state.data.firstName} {this.state.data.lastName}</Text>
+          <Text style={{ fontSize: 18, color: '#707070', fontWeight: 'bold' }}>{this.state.data.firstName} {this.state.data.lastName}</Text>
           <Text style={styles.textStyle2}>{this.state.addressDetail}</Text>
           <Text style={styles.textStyle2}>{this.state.data.email}</Text>
           <View style={{flex:1,margin:5}}>

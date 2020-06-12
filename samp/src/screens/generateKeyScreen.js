@@ -326,16 +326,23 @@ export default class generateKeyScreen extends React.Component {
                             ))}
                         </Picker >
                     </View>
-
-                    <View style={styles.wrapp2}>
+                    <View style={{justifyContent:'center',alignItems:'center',margin:5}}>
+                    <View style={styles.wrapp5}>
+                    <TouchableOpacity
+                            style={styles.touchableopacityStyle}onPress={()=>this.props.navigation.navigate('Home')} >
+                            <Text style={styles.text1Style}>Cancel</Text>
+                        </TouchableOpacity>
+                                <View style={{paddingLeft:10}}>
                         <TouchableOpacity
-                            style={styles.touchableopacityStyle}>
+                            style={styles.touchableopacityStyle1}>
                             <Text style={styles.text1Style}
                                 onPress={this.keyAction}>Generate</Text>
                         </TouchableOpacity>
+                        </View>
+                    </View>
                     </View>
                 </View>
-            </View >
+            </View>
         );
     }
 }
@@ -375,14 +382,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#066DB3',
-        width: 280,
+        width: 150,
         height: 50,
-        borderRadius: 12,
-        borderRadius: 25
+        borderRadius:25,
+       
+        
+    },
+    touchableopacityStyle1: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#066DB3',
+        width: 150,
+        height: 50,
+        borderRadius:25
+        
     },
     text1Style: {
         color: '#F9F4F2',
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
         fontFamily: 'Quicksand'
     },
@@ -392,7 +409,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 40,
         paddingBottom: 20
-
     },
 
     wrapp3: {
@@ -409,6 +425,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingBottom:30
 
+    },
+    wrapp5: {
+        backgroundColor: '#FFFFFF',
+        justifyContent:'space-between',
+        alignItems:'center',
+        flexDirection:'row',
+        position:'relative',
+        paddingTop: 40,
+        paddingBottom: 20
     },
 
     pickerView: {
